@@ -1,13 +1,24 @@
-// import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next';
+import { GetServerSideProps } from 'next';
+import { Salute } from '@/modules/salute/salute.types'
+import { createSaluteAdapter } from '@/modules/salute/salute.adapter';
+import { SaluteHTTPData } from '@/modules/salute/salute.data';
 
-function Home() {
+export default function HomePage({ salute }) {
   return (
-    <p>Home</p>
+    <>
+      <h1>Home</h1>
+      <p>Lista de cosas (from redux, aunque no lo sepa)</p>
+      <p>Data: '{salute}'</p>
+    </>
   );
 }
 
-export default Home;
+export const getServerSideProps: GetServerSideProps<{
+  salute: Salute;
+}> = async () => {
+  const saluteData = new SaluteHTTPData();
+  const rawData = await saluteData.getSalute();
+  const salute = createSaluteAdapter(rawData);
+  return { props: { salute } };
+};
  
-// export const getStaticProps: GetStaticProps = async (context) => { };
-// export const getStaticPaths: GetStaticPaths = async () => { };
-// export const getServerSideProps: GetServerSideProps = async (context) => { };
