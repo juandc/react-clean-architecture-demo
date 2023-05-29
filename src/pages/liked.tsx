@@ -3,6 +3,7 @@ import React from 'react';
 import { createLikedListAdapter } from '@/modules/liked/liked.adapter';
 import { LikedLocalStorageData } from '@/modules/liked/liked.data';
 import { LikedList } from '@/modules/liked/liked.types';
+import { Link } from '@/components/Link';
 
 export default function LikedPage() {
   const {
@@ -17,6 +18,7 @@ export default function LikedPage() {
   
   return (
     <>
+      <Link href="/">Home</Link>
       <h1>Liked</h1>
       <p>Lista de cosas (from LS, aunque no lo sepa)</p>
 
