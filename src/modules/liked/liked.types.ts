@@ -6,6 +6,8 @@ export type LikedItem = {
 };
 
 export interface LikedData {
-  getLiked(): Promise<LikedList>;
-  addLiked(newValue: LikedItem): Promise<LikedList>;
+  createLikedItemAdapter(rawData: any): LikedItem;
+  createLikedListAdapter(rawData: any): LikedList;
+  getLiked(): Promise<any>;
+  addLiked(newValue: LikedItem): Promise<any>;
 }

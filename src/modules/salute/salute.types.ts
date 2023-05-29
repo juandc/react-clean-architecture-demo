@@ -3,5 +3,6 @@ export type Salute = {
 };
 
 export interface SaluteData {
-  getSalute(): Promise<Salute>;
+  createSaluteAdapter(rawData: any): Salute;
+  getSalute(): Promise<any>;
 }

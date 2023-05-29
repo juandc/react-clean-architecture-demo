@@ -1,6 +1,5 @@
 import React from 'react';
 // import { GetServerSideProps } from 'next';
-import { createLikedListAdapter } from '@/modules/liked/liked.adapter';
 import { LikedLocalStorageData } from '@/modules/liked/liked.data';
 import { LikedList } from '@/modules/liked/liked.types';
 import { Link } from '@/components/Link';
@@ -37,13 +36,13 @@ function useLiked() {
 
   const getLikedData = async () => {
     const rawData = await likedData.getLiked();
-    const liked = createLikedListAdapter(rawData);
+    const liked = likedData.createLikedListAdapter(rawData);
     setLikedList(liked);
   };
 
   async function addLiked(newValue) {
     const rawData = await likedData.addLiked(newValue);
-    const liked = createLikedListAdapter(rawData);
+    const liked = likedData.createLikedListAdapter(rawData);
     setLikedList(liked);
   }
 

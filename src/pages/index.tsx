@@ -1,6 +1,5 @@
 import { GetServerSideProps } from 'next';
 import { Salute } from '@/modules/salute/salute.types'
-import { createSaluteAdapter } from '@/modules/salute/salute.adapter';
 import { SaluteHTTPData } from '@/modules/salute/salute.data';
 import { Link } from '@/components/Link';
 
@@ -20,7 +19,7 @@ export const getServerSideProps: GetServerSideProps<{
 }> = async () => {
   const saluteData = new SaluteHTTPData();
   const rawData = await saluteData.getSalute();
-  const salute = createSaluteAdapter(rawData);
+  const salute = saluteData.createSaluteAdapter(rawData);
   return { props: { salute } };
 };
  
