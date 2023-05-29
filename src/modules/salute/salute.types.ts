@@ -1,5 +1,5 @@
 export type Salute = {
-  salute: string;
+  saluteState: string;
 };
 
 export interface SaluteData {
