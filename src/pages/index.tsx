@@ -1,25 +1,25 @@
-import { GetServerSideProps } from 'next';
-import { Salute } from '@/modules/salute/salute.types'
-import { SaluteHTTPData } from '@/modules/salute/salute.data';
-import { Link } from '@/components/Link';
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+import { PhotoList } from '@/modules/photos/photos.types';
+import { PhotosHTTPData } from '@/modules/photos/photos.data';
 
-export default function HomePage({ salute }) {
+export default function HomePage({
+  photos,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
-      <Link href="/liked">Liked</Link>
       <h1>Home</h1>
-      <p>Lista de cosas (from redux, aunque no lo sepa)</p>
-      <p>Data: '{salute}'</p>
+      <p>Lista de photos</p>
+      {photos.map(p => <img key={p.id} src={p.urls.small} />)}
     </>
   );
 }
 
 export const getServerSideProps: GetServerSideProps<{
-  salute: Salute;
+  photos: PhotoList;
 }> = async () => {
-  const saluteData = new SaluteHTTPData();
-  const rawData = await saluteData.getSalute();
-  const salute = saluteData.createSaluteAdapter(rawData);
-  return { props: { salute } };
+  const photosData = new PhotosHTTPData();
+  const rawData = await photosData.getPhotoList();
+  const photos = photosData.createPhotoListAdapter(rawData);
+  return { props: { photos } };
 };
  

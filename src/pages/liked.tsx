@@ -17,7 +17,7 @@ export default function LikedPage() {
   
   return (
     <>
-      <Link href="/">Home</Link>
+      <Link href="/salute">Salute</Link>
       <h1>Liked</h1>
       <p>Lista de cosas (from LS, aunque no lo sepa)</p>
 
