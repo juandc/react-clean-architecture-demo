@@ -1,6 +1,7 @@
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { PhotoList } from '@/modules/photos/photos.types';
 import { PhotosHTTPData } from '@/modules/photos/photos.data';
+import { PhotoCard } from '@/modules/photos/components';
 
 export default function HomePage({
   photos,
@@ -8,8 +9,7 @@ export default function HomePage({
   return (
     <>
       <h1>Home</h1>
-      <p>Lista de photos</p>
-      {photos.map(p => <img key={p.id} src={p.urls.small} />)}
+      {photos.map(p => <PhotoCard key={p.id} {...p} />)}
     </>
   );
 }
