@@ -1,12 +1,12 @@
 @import "@/utils/styles/_vars";
 
 .nav_container {
+  @include container_padding;
   background-color: $color-bg;
   position: sticky;
   top: 0;
   left: 0;
   right: 0;
-  padding: 0 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,17 +37,9 @@
 }
 
 .nav_listitem {
+  @include element_transparent;
   height: 100%;
-  width: 48px;
 
-  &:hover {
-    background-color: $color-elevation;
-  }
-
-  &:active {
-    outline: 1.5px solid $color-txt;
-  }
-  
   // &__saved {}
 
   &__liked {
@@ -75,12 +67,37 @@
   font-weight: 500;
   font-size: 24px;
   line-height: 29px;
+  max-width: $size-mobile-container;
+
+  @media (min-width: $size-tablet-device) {
+    font-size: 28px;
+    line-height: 32px;
+  }
+
+  @media (min-width: $size-desktop-device) {
+    max-width: 400px;
+    font-size: 32px;
+    line-height: 36px;
+  }
 }
 
 .header_subtitle {
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
+  max-width: $size-mobile-container;
+
+  @media (min-width: $size-tablet-device) {
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 20px;
+  }
+
+  @media (min-width: $size-desktop-device) {
+    max-width: 400px;
+    font-size: 20px;
+    line-height: 23px;
+  }
 }
 
 .main_container {

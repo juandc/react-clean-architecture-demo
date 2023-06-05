@@ -9,6 +9,11 @@
   max-width: 400px;
   margin-top: 20px;
   overflow: hidden;
+
+  @media (min-width: $size-desktop-device) {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
 
 .card_img {
@@ -26,6 +31,10 @@
   @include center;
   @include element_transparent;
   margin: 0 -2px;
+
+  &:hover {
+    background-color: $color-bg-hover-elevation;
+  }
 }
 
 .photobutton_bg {

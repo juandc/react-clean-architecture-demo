@@ -3,12 +3,17 @@
 .photosearch_container {
   @include center;
   position: relative;
-  margin-bottom: -6px;
   width: 100%;
+  margin-bottom: -6px;
+
+  @media (min-width: $size-tablet-device) {
+    margin-bottom: 0;
+  }
 }
 
 .photosearch_input {
   @include element_transparent;
+  cursor: text;
   color: $color-txt;
   font-family: inherit;
   font-weight: 400;
@@ -27,4 +32,8 @@
   width: 100%;
   position: absolute;
   z-index: -1;
+
+  @media (min-width: $size-tablet-device) {
+    height: 48px;
+  }
 }

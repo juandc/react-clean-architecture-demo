@@ -45,6 +45,14 @@ $color-txt-blue: #141821;
 $color-bg: #{var(--color-bg)};
 $color-elevation: #{var(--color-elevation)};
 $color-txt: #{var(--color-txt)};
+$color-bg-hover: rgba(120, 120, 120, 0.1);
+$color-bg-hover-elevation: rgba(120, 120, 120, 0.25);
+
+$size-mobile-container: 320px;
+$size-tablet-container: 666px;
+$size-tablet-device: 768px;
+$size-desktop-container: 888px;
+$size-desktop-device: 1024px;
 
 @mixin center {
   display: flex;
@@ -53,18 +61,40 @@ $color-txt: #{var(--color-txt)};
 }
 
 @mixin container_padding {
-  padding: 0 24px;
+  padding-left: 24px;
+  padding-right: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: $size-tablet-container;
+
+  @media (min-width: $size-desktop-device) {
+    max-width: $size-desktop-container;
+  }
 }
 
 @mixin element_transparent {
   cursor: pointer;
   border: 0;
-  background: transparent;
+  border-radius: 9.5px;
   height: 48px;
   width: 48px;
 
-  &:focus {
-    // background-color: rgba(0,0,0,.1);
+  background-color: transparent;
+  transition: .3s background-color;
+
+  &:hover {
+    background-color: $color-bg-hover;
+  }
+
+  &:focus,
+  &:active {
     outline: 1.5px solid $color-txt;
   }
 }
+
+// @mixin element_transparent {
+//   @include bg-transition;
+  
+// }
+
+// cards container width 888px
