@@ -1,0 +1,30 @@
+@import "@/utils/styles/_vars.scss";
+
+.photosearch_container {
+  @include center;
+  position: relative;
+  margin-bottom: -6px;
+  width: 100%;
+}
+
+.photosearch_input {
+  @include element_transparent;
+  color: $color-txt;
+  font-family: inherit;
+  font-weight: 400;
+  padding-left: 12px;
+  width: 100%;
+}
+.photosearch_input::placeholder {
+  color: $color-txt;
+  font-weight: 300;
+}
+
+.photosearch_bg {
+  background: $color-elevation;
+  border-radius: 12.5px;
+  height: 36px;
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+}

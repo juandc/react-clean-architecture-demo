@@ -1,0 +1,71 @@
+@import "@/utils/styles/_vars.scss";
+
+.photofilters_container {
+  margin-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.orderby_container,
+.color_container {
+  @include center;
+  position: relative;
+}
+
+.orderby_container {
+  &::before {
+    content: '';
+    position: absolute;
+    background-color: $color-txt;
+    border-radius: 8px;
+    left: 12px;
+    height: 8px;
+    width: 8px;
+  }
+  &::after {
+    content: '';
+    background: $color-elevation;
+    border-radius: 9.5px;
+    position: absolute;
+    height: 24px;
+    width: 100%;
+    z-index: -1;
+  }
+}
+
+.color_container {
+  &::after {
+    content: '';
+    background-color: $color-txt;
+    border-radius: 9.5px;
+    position: absolute;
+    // top: 12px;
+    right: 0;
+    height: 24px;
+    width: 24px;
+    font-size: 0;
+    z-index: -1;
+  }
+}
+
+.orderby_select,
+.color_select {
+  @include center;
+  @include element_transparent;
+  appearance: none;
+  margin-top: -12px;
+  margin-bottom: -12px;
+}
+
+.orderby_select {
+  color: $color-txt;
+  font-weight: 700;
+  padding: 0 12px 0 28px;
+}
+
+.color_select {
+  padding: 0 12px;
+  text-align: center;
+  font-size: 0;
+}

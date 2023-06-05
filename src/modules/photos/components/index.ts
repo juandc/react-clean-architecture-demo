@@ -1,1 +1,2 @@
-export * from './PhotoCard/PhotoCard';
+export * from './PhotoSearch/PhotoSearch';
+export * from './PhotoFilters/PhotoFilters';

@@ -2,32 +2,42 @@ import React from 'react';
 // import { GetServerSideProps } from 'next';
 import { LikedLocalStorageData } from '@/modules/liked/liked.data';
 import { LikedList } from '@/modules/liked/liked.types';
-import { Link } from '@/components/Link';
+import { Layout, Link } from '@/components';
 
 export default function LikedPage() {
   const {
     likedList,
-    addLiked,
+    // addLiked,
   } = useLiked();
   
-  const handleAdd = () => {
-    const random = Math.random();
-    addLiked({ id: random, content: random })
-  };
+  // const handleAdd = () => {
+  //   const random = Math.random();
+  //   addLiked({ id: random, content: random })
+  // };
   
   return (
-    <>
-      <Link href="/salute">Salute</Link>
-      <h1>Liked</h1>
-      <p>Lista de cosas (from LS, aunque no lo sepa)</p>
-
-      <button onClick={handleAdd}>Add</button>
-
+    <Layout
+      title="Liked photographies"
+    >
       {likedList.map(({ id, content }) => (
         <p key={id}>{content}</p>
       ))}
-    </>
+    </Layout>
   );
+  
+  // return (
+  //   <>
+  //     <Link href="/salute">Salute</Link>
+  //     <h1>Liked</h1>
+  //     <p>Lista de cosas (from LS, aunque no lo sepa)</p>
+
+  //     <button onClick={handleAdd}>Add</button>
+
+  //     {likedList.map(({ id, content }) => (
+  //       <p key={id}>{content}</p>
+  //     ))}
+  //   </>
+  // );
 }
 
 function useLiked() {

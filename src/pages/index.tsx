@@ -1,16 +1,21 @@
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { PhotoList } from '@/modules/photos/photos.types';
 import { PhotosHTTPData } from '@/modules/photos/photos.data';
-import { PhotoCard } from '@/modules/photos/components';
+import { Layout, PhotoCard } from '@/components';
+import { PhotoFilters, PhotoSearch } from '@/modules/photos/components';
 
 export default function HomePage({
   photos,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <>
-      <h1>Home</h1>
+    <Layout
+      title="Quality work from expert photographers"
+      subtitle="Find and save the best photographies, all in one place."
+    >
+      <PhotoSearch />
+      <PhotoFilters />
       {photos.map(p => <PhotoCard key={p.id} {...p} />)}
-    </>
+    </Layout>
   );
 }
 

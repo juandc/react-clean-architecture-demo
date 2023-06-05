@@ -1,0 +1,45 @@
+@import "@/utils/styles/_vars";
+
+.card_container {
+  border-radius: 12.5px;
+  background-color: $color-bg;
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.card_img {
+  width: 100%;
+}
+
+.card_actions {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 12px;
+}
+
+.photobutton_container {
+  @include center;
+  @include element_transparent;
+  margin: 0 -2px;
+}
+
+.photobutton_bg {
+  @include center;
+  background-color: $color-elevation;
+  border-radius: 9.5px;
+  height: 24px;
+  width: 44px;
+}
+
+.photobutton_icon {
+  position: absolute;
+  background: $color-txt;
+  border-radius: 50px;
+  height: 14px;
+  width: 14px;
+}

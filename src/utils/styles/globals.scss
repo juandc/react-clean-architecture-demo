@@ -1,3 +1,63 @@
+@import "@/utils/styles/_vars";
+
 * {
   box-sizing: border-box;
+}
+
+:root {
+  --color-bg-black-and-white: #{$color-bg-black-and-white};
+  --color-elevation-black-and-white: #{$color-elevation-black-and-white};
+  --color-txt-black-and-white: #{$color-txt-black-and-white};
+
+  --color-bg-black: #{$color-bg-black};
+  --color-elevation-black: #{$color-elevation-black};
+  --color-txt-black: #{$color-txt-black};
+
+  --color-bg-purple: #{$color-bg-purple};
+  --color-elevation-purple: #{$color-elevation-purple};
+  --color-txt-purple: #{$color-txt-purple};
+
+  --color-bg-magenta: #{$color-bg-magenta};
+  --color-elevation-magenta: #{$color-elevation-magenta};
+  --color-txt-magenta: #{$color-txt-magenta};
+
+  --color-bg-teal: #{$color-bg-teal};
+  --color-elevation-teal: #{$color-elevation-teal};
+  --color-txt-teal: #{$color-txt-teal};
+
+  --color-bg-white: #{$color-bg-white};
+  --color-elevation-white: #{$color-elevation-white};
+  --color-txt-white: #{$color-txt-white};
+
+  --color-bg-green: #{$color-bg-green};
+  --color-elevation-green: #{$color-elevation-green};
+  --color-txt-green: #{$color-txt-green};
+
+  --color-bg-yellow: #{$color-bg-yellow};
+  --color-elevation-yellow: #{$color-elevation-yellow};
+  --color-txt-yellow: #{$color-txt-yellow};
+
+  --color-bg-orange: #{$color-bg-orange};
+  --color-elevation-orange: #{$color-elevation-orange};
+  --color-txt-orange: #{$color-txt-orange};
+
+  --color-bg-red: #{$color-bg-red};
+  --color-elevation-red: #{$color-elevation-red};
+  --color-txt-red: #{$color-txt-red};
+
+  --color-bg-blue: #{$color-bg-blue};
+  --color-elevation-blue: #{$color-elevation-blue};
+  --color-txt-blue: #{$color-txt-blue};
+
+  --color-bg: var(--color-bg-black-and-white);
+  --color-elevation: var(--color-elevation-black-and-white);
+  --color-txt: var(--color-txt-black-and-white);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: $color-bg;
+  color: $color-txt;
 }

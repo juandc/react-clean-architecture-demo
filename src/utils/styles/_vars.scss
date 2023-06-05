@@ -1,1 +1,70 @@
-$color-bg: rgb(44, 52, 16);
+$color-bg-black-and-white: #EDEDED;
+$color-elevation-black-and-white: #DFDFDF;
+$color-txt-black-and-white: #252525;
+
+$color-bg-black: #303030;
+$color-elevation-black: #252525;
+$color-txt-black: #B3B3B3;
+
+$color-bg-purple: #391C40;
+$color-elevation-purple: #36123F;
+$color-txt-purple: #C09AC9;
+
+$color-bg-magenta: #401C2C;
+$color-elevation-magenta: #3D1225;
+$color-txt-magenta: #C99CB0;
+
+$color-bg-teal: #263C40;
+$color-elevation-teal: #173036;
+$color-txt-teal: #B3C8CC;
+
+$color-bg-white: #EDEDED;
+$color-elevation-white: #F7F7F7;
+$color-txt-white: #252525;
+
+$color-bg-green: #EAF2E9;
+$color-elevation-green: #F5FAF5;
+$color-txt-green: #152013;
+
+$color-bg-yellow: #FDF7D8;
+$color-elevation-yellow: #FEFCEC;
+$color-txt-yellow: #2F2804;
+
+$color-bg-orange: #FDECD8;
+$color-elevation-orange: #FEF5EC;
+$color-txt-orange: #5D3507;
+
+$color-bg-red: #F6E6E4;
+$color-elevation-red: #FDF3F2;
+$color-txt-red: #211514;
+
+$color-bg-blue: #E4EAF6;
+$color-elevation-blue: #F2F5FD;
+$color-txt-blue: #141821;
+
+$color-bg: #{var(--color-bg)};
+$color-elevation: #{var(--color-elevation)};
+$color-txt: #{var(--color-txt)};
+
+@mixin center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin container_padding {
+  padding: 0 24px;
+}
+
+@mixin element_transparent {
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  height: 48px;
+  width: 48px;
+
+  &:focus {
+    // background-color: rgba(0,0,0,.1);
+    outline: 1.5px solid $color-txt;
+  }
+}
