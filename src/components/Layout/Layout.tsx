@@ -58,3 +58,11 @@ export function Main({ children }) {
     </main>
   );
 }
+
+export function MasonryList({ children }) {
+  return (
+    <div className={styles.masonry_container}>
+      {children}
+    </div>
+  );
+}

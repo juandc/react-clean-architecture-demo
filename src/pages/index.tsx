@@ -1,7 +1,7 @@
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { PhotoList } from '@/modules/photos/photos.types';
 import { PhotosHTTPData } from '@/modules/photos/photos.data';
-import { Layout, PhotoCard } from '@/components';
+import { Layout, MasonryList, PhotoCard } from '@/components';
 import { PhotoFilters, PhotoSearch } from '@/modules/photos/components';
 
 export default function HomePage({
@@ -14,7 +14,9 @@ export default function HomePage({
     >
       <PhotoSearch />
       <PhotoFilters />
-      {photos.map(p => <PhotoCard key={p.id} {...p} />)}
+      <MasonryList>
+        {photos.map(p => <PhotoCard key={p.id} {...p} />)}
+      </MasonryList>
     </Layout>
   );
 }
