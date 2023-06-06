@@ -1,9 +1,8 @@
+import { Photo } from "../photos/photos.types";
+
 export type LikedList = LikedItem[];
 
-export type LikedItem = {
-  id: string;
-  content: string;
-};
+export type LikedItem = Photo;
 
 export interface LikedData {
   createLikedItemAdapter(rawData: any): LikedItem;

@@ -19,6 +19,20 @@ export function useApp(): StoreAdapter {
       payload,
     })
   };
+
+  const setLiked = (payload) => {
+    dispatch({
+      type: AppActionTypes.SET_LIKED,
+      payload,
+    })
+  };
+
+  const addLike = (payload) => {
+    dispatch({
+      type: AppActionTypes.ADD_LIKE,
+      payload,
+    })
+  };
   
   return {
     photos: state.photos,
@@ -26,5 +40,7 @@ export function useApp(): StoreAdapter {
     saved: state.saved,
     setPhotos,
     addPhoto,
+    setLiked,
+    addLike,
   };
 }

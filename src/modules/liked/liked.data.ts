@@ -4,7 +4,14 @@ export class LikedLocalStorageData implements LikedData {
   createLikedItemAdapter(rawData): LikedItem {
     return {
       id: rawData.id,
-      content: rawData.content,
+      description: rawData.description,
+      urls: {
+        thumb: rawData.urls.thumb,
+        small: rawData.urls.small,
+        regular: rawData.urls.regular,
+        full: rawData.urls.full,
+        raw: rawData.urls.raw,
+      },
     };
   }
   
