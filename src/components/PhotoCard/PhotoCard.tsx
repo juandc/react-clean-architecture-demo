@@ -9,9 +9,6 @@ export function PhotoCard({ urls, ...props }: Photo) {
     }
   };
 
-  console.log({props});
-  
-  
   return (
     <div className={styles.card_container} onClick={handleDoubleClick}>
       <img

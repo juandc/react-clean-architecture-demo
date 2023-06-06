@@ -2,7 +2,8 @@ import React from 'react';
 // import { GetServerSideProps } from 'next';
 import { LikedLocalStorageData } from '@/modules/liked/liked.data';
 import { LikedList } from '@/modules/liked/liked.types';
-import { Layout, Link } from '@/components';
+import { Layout } from '@/components';
+import { useApp } from '@/store/ContextStore';
 
 export default function LikedPage() {
   const {
@@ -24,23 +25,13 @@ export default function LikedPage() {
       ))}
     </Layout>
   );
-  
-  // return (
-  //   <>
-  //     <Link href="/salute">Salute</Link>
-  //     <h1>Liked</h1>
-  //     <p>Lista de cosas (from LS, aunque no lo sepa)</p>
-
-  //     <button onClick={handleAdd}>Add</button>
-
-  //     {likedList.map(({ id, content }) => (
-  //       <p key={id}>{content}</p>
-  //     ))}
-  //   </>
-  // );
 }
 
 function useLiked() {
+  const { photos } = useApp()
+  console.log('photos context from liked', photos);
+  
+  
   const likedData = new LikedLocalStorageData();
   const [likedList, setLikedList] = React.useState<LikedList>([]);
 
