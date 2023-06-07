@@ -9,13 +9,11 @@ type PhotoCardProps = Photo & {
 };
 
 export function PhotoCard(props: PhotoCardProps) {
-  const { urls } = props;
-  const { handleLike } = useLiked(props);
+  const { isLiked, ...photo } = props;
+  const { handleLike } = useLiked(photo);
   
   const handleDoubleClick = (e) => {
-    if (e.detail == 2) {
-      handleLike();
-    }
+    if (e.detail == 2) handleLike();
   };
 
   return (
@@ -25,7 +23,7 @@ export function PhotoCard(props: PhotoCardProps) {
     >
       <img
         className={styles.card_img}
-        src={urls.small}
+        src={props.urls.small}
         loading="lazy"
         style={{ maxHeight: 600, objectFit:'cover' }}
         height="100%"
@@ -35,7 +33,7 @@ export function PhotoCard(props: PhotoCardProps) {
         <PhotoButton type="save" />
         <PhotoButton
           type="like"
-          isActive={props.isLiked}
+          isActive={isLiked}
           onClick={handleLike}
         />
       </div>
@@ -48,9 +46,9 @@ function useLiked(photo) {
   
   const handleLike = async () => {
     const likedData = new LikedLocalStorageData();
-    const isLiked = await likedData.toggleLike(photo);
+    const wasLiked = await likedData.toggleLike(photo);
 
-    if (isLiked) removeLike(photo);
+    if (wasLiked) removeLike(photo);
     else addLike(photo);
   }
   
