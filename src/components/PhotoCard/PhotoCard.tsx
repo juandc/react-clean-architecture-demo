@@ -1,16 +1,16 @@
 import React from 'react';
-import { Photo } from '@/modules/photos/photos.types';
-import { useApp } from '@/store/ContextStore';
-import styles from './PhotoCard.module.scss';
 import { LikedLocalStorageData } from '@/modules/liked/liked.data';
+import { Photo } from '@/modules/photos/photos.types';
+import { useStore } from '@/store/ContextStore';
+import styles from './PhotoCard.module.scss';
 
-export function PhotoCard({ urls, ...props }: Photo) {
-  const { addLike } = useLiked();
-  
-  const handleLike = () => {
-    console.log('Like');
-    addLike({ ...props, urls });
-  };
+type PhotoCardProps = Photo & {
+  isLiked: boolean,
+};
+
+export function PhotoCard(props: PhotoCardProps) {
+  const { urls } = props;
+  const { handleLike } = useLiked(props);
   
   const handleDoubleClick = (e) => {
     if (e.detail == 2) {
@@ -32,33 +32,44 @@ export function PhotoCard({ urls, ...props }: Photo) {
       />
 
       <div className={styles.card_actions}>
-        <PhotoButton />
-        <PhotoButton onClick={handleLike} />
+        <PhotoButton type="save" />
+        <PhotoButton
+          type="like"
+          isActive={props.isLiked}
+          onClick={handleLike}
+        />
       </div>
     </div>
   );
 }
 
-function useLiked() {
-  const { setLiked } = useApp();
+function useLiked(photo) {
+  const { addLike, removeLike } = useStore();
   
-  const likedData = new LikedLocalStorageData();
+  const handleLike = async () => {
+    const likedData = new LikedLocalStorageData();
+    const isLiked = await likedData.toggleLike(photo);
 
-  const addLike = async (newValue) => {
-    const rawData = await likedData.addLiked(newValue);
-    const liked = likedData.createLikedListAdapter(rawData);
-    setLiked(liked);
+    if (isLiked) removeLike(photo);
+    else addLike(photo);
   }
   
   return {
-    addLike,
+    handleLike,
   };
 }
 
 function PhotoButton(props) {
+  const style = `
+    ${styles.photobutton_container}
+    ${props.type === 'like' && styles.photobutton_container__like}
+    ${props.type === 'save' && styles.photobutton_container__save}
+    ${props.isActive && styles.photobutton_container__active}
+  `;
+
   return (
     <button
-      className={styles.photobutton_container}
+      className={style}
       onClick={props.onClick}
     >
       <span className={styles.photobutton_bg}></span>

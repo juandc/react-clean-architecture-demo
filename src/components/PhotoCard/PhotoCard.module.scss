@@ -35,6 +35,14 @@
   &:hover {
     background-color: $color-bg-hover-elevation;
   }
+  
+  @at-root #{&}__save#{&}__active {
+    background-color: blue;
+  }
+
+  @at-root #{&}__like#{&}__active {
+    background-color: red;
+  }
 }
 
 .photobutton_bg {

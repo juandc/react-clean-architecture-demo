@@ -1,2 +1,2 @@
 export { AppProvider } from './store';
-export { useApp } from './slice';
+export { useStore } from './slice';

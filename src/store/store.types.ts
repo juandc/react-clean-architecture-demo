@@ -8,9 +8,10 @@ export type StoreState = {
 
 export interface StoreDispatch {
   setPhotos(newPhotos: PhotoList): void;
-  addPhoto(newPhoto: Photo): void;
+  // addPhoto(newPhoto: Photo): void;
   setLiked(newLiked: PhotoList): void;
   addLike(newLiked: Photo): void;
+  removeLike(likedItem: Photo): void;
 }
 
 export type StoreAdapter = StoreState & StoreDispatch;

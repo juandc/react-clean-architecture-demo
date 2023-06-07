@@ -4,12 +4,13 @@ import { PhotoList } from '@/modules/photos/photos.types';
 import { PhotosHTTPData } from '@/modules/photos/photos.data';
 import { Layout, MasonryList, PhotoCard } from '@/components';
 import { PhotoFilters, PhotoSearch } from '@/modules/photos/components';
-import { useApp } from '@/store/ContextStore';
+import { useStore } from '@/store/ContextStore';
+import { LikedLocalStorageData } from '@/modules/liked/liked.data';
 
 export default function HomePage({
   photos: serverPhotos,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { photos, addPhoto } = useHome(serverPhotos);
+  const { photos, isLiked } = useHome(serverPhotos);
 
   return (
     <Layout
@@ -17,34 +18,46 @@ export default function HomePage({
       subtitle="Find and save the best photographies, all in one place."
     >
       <PhotoSearch />
-      <button onClick={() => {
-        addPhoto({
-          id: '123',
-          description: '',
-          urls: { thumb: '', small: '', regular: '', full: '', raw: '' },
-        });
-      }}>Click</button>
       <PhotoFilters />
+
       <MasonryList>
-        {photos.map(p => <PhotoCard key={p.id} {...p} />)}
+        {photos.map(photo => (
+          <PhotoCard
+            key={photo.id}
+            isLiked={isLiked(photo.id)}
+            {...photo}
+          />
+        ))}
       </MasonryList>
     </Layout>
   );
 }
 
 const useHome = (serverPhotos) => {
-  const { photos, setPhotos, addPhoto } = useApp()
+  const {
+    photos,
+    setPhotos,
+    liked,
+    setLiked,
+  } = useStore();
+
+  const isLiked = (id) => liked.some(p => p.id == id);
+
+  const getLikedData = async () => {
+    const likedData = new LikedLocalStorageData();
+    const rawData = await likedData.getLiked();
+    const likedList = likedData.createLikedListAdapter(rawData);
+    setLiked(likedList);
+  };
 
   React.useEffect(() => {
-    if (!photos.length && !!serverPhotos.length) {
-      console.log("Update context");
-      setPhotos(serverPhotos)
-    }
+    if (!photos.length && !!serverPhotos.length) setPhotos(serverPhotos);
+    if (!liked.length) getLikedData();
   }, []);
 
   return {
     photos,
-    addPhoto,
+    isLiked,
   };
 };
 

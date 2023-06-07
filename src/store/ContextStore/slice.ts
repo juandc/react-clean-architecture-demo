@@ -3,7 +3,7 @@ import { StoreAdapter } from '../store.types';
 import { AppContext } from './store';
 import { AppActionTypes } from './reducer';
 
-export function useApp(): StoreAdapter {
+export function useStore(): StoreAdapter {
   const [state, dispatch] = React.useContext(AppContext);
 
   const setPhotos = (payload) => {
@@ -13,12 +13,12 @@ export function useApp(): StoreAdapter {
     })
   };
 
-  const addPhoto = (payload) => {
-    dispatch({
-      type: AppActionTypes.ADD_PHOTOS,
-      payload,
-    })
-  };
+  // const addPhoto = (payload) => {
+  //   dispatch({
+  //     type: AppActionTypes.ADD_PHOTOS,
+  //     payload,
+  //   })
+  // };
 
   const setLiked = (payload) => {
     dispatch({
@@ -33,14 +33,22 @@ export function useApp(): StoreAdapter {
       payload,
     })
   };
+
+  const removeLike = (payload) => {
+    dispatch({
+      type: AppActionTypes.REMOVE_LIKE,
+      payload,
+    })
+  };
   
   return {
     photos: state.photos,
     liked: state.liked,
     saved: state.saved,
     setPhotos,
-    addPhoto,
+    // addPhoto,
     setLiked,
     addLike,
+    removeLike,
   };
 }

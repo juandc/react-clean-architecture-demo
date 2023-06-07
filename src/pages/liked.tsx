@@ -1,38 +1,41 @@
 import React from 'react';
 // import { GetServerSideProps } from 'next';
 import { LikedLocalStorageData } from '@/modules/liked/liked.data';
-import { Layout } from '@/components';
-import { useApp } from '@/store/ContextStore';
+import { Layout, MasonryList, PhotoCard } from '@/components';
+import { useStore } from '@/store/ContextStore';
 
 export default function LikedPage() {
-  const {
-    liked,
-  } = useLiked();
+  const { liked } = useLiked();
 
   return (
     <Layout
       title="Liked photographies"
     >
-      {liked.map(({ id }) => (
-        <p key={id} style={{ margin: 20 }}>{id}</p>
-      ))}
+      <MasonryList>
+        {liked.map(photo => (
+          <PhotoCard
+            key={photo.id}
+            isLiked={true}
+            {...photo}
+          />
+        ))}
+      </MasonryList>
     </Layout>
   );
 }
 
 function useLiked() {
-  const { liked, setLiked } = useApp();
-  
-  const likedData = new LikedLocalStorageData();
+  const { liked, setLiked } = useStore();
 
   const getLikedData = async () => {
+    const likedData = new LikedLocalStorageData();
     const rawData = await likedData.getLiked();
-    const liked = likedData.createLikedListAdapter(rawData);
-    setLiked(liked);
+    const likedList = likedData.createLikedListAdapter(rawData);
+    setLiked(likedList);
   };
 
   React.useEffect(() => {
-    getLikedData();
+    if (!liked.length) getLikedData();
   }, []);
   
   return {

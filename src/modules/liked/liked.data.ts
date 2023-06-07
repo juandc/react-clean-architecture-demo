@@ -29,11 +29,24 @@ export class LikedLocalStorageData implements LikedData {
     );
     return data;
   }
-  async addLiked(newValue: LikedItem): Promise<any> {
+  async isLiked(): Promise<any> {
+    const data = await Promise.resolve(
+      JSON.parse(localStorage.getItem(this.itemName))
+      || this.defaultItemValue
+    );
+    return data;
+  }
+  async toggleLike(newValue: LikedItem): Promise<boolean> {
     const list = await this.getLiked();
-    const newList = [...list, newValue];
-    const newListStr = JSON.stringify(newList);
+    const likedIndex = list.findIndex(x => x.id == newValue.id)
+    const isLiked = likedIndex > -1;
+    if (isLiked) {
+      list.splice(likedIndex, 1);
+    } else {
+      list.splice(0, 0, newValue);
+    }
+    const newListStr = JSON.stringify(list);
     localStorage.setItem(this.itemName, newListStr);
-    return newList;
+    return isLiked;
   }
 }

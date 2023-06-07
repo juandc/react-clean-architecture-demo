@@ -8,5 +8,5 @@ export interface LikedData {
   createLikedItemAdapter(rawData: any): LikedItem;
   createLikedListAdapter(rawData: any): LikedList;
   getLiked(): Promise<any>;
-  addLiked(newValue: LikedItem): Promise<any>;
+  toggleLike(newValue: LikedItem): Promise<boolean>;
 }
