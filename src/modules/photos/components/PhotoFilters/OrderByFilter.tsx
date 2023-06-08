@@ -37,7 +37,7 @@ function useOrderBy() {
     router.replace({
       pathname: router.pathname,
       query: { ...router.query, order_by: newOrderBy },
-    });
+    }, undefined, { shallow: true });
     setStoreOrderBy(newOrderBy);
   };
 

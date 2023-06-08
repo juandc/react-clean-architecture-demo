@@ -77,6 +77,8 @@ const useHome = (serverPhotos) => {
   };
 
   const handleFiltersChange = () => {
+    console.log('handle filters change');
+    
     getPhotos();
   };
 
@@ -109,6 +111,8 @@ export const getServerSideProps: GetServerSideProps<{
   //   'public, s-maxage=19, stale-while-revalidate=59',
   // );
 
+  console.log('server props');
+  
   const filters = {
     order_by: query.order_by ? String(query.order_by) : 'latest',
     search: query.search ? String(query.search) : '',
