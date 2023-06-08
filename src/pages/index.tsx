@@ -9,6 +9,7 @@ import { LikedLocalStorageData } from '@/modules/liked/liked.data';
 
 export default function HomePage({
   photos: serverPhotos,
+  // orderBy,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { photos, isLiked } = useHome(serverPhotos);
 
@@ -63,9 +64,14 @@ const useHome = (serverPhotos) => {
 
 export const getServerSideProps: GetServerSideProps<{
   photos: PhotoList;
-}> = async () => {
+}> = async ({ query }) => {
+  const filters = {
+    order_by: String(query.order_by) || 'latest',
+    search: String(query.search) || null,
+  };
+
   const photosData = new PhotosHTTPData();
-  const rawData = await photosData.getPhotoList();
+  const rawData = await photosData.getPhotoList(filters);
   const photos = photosData.createPhotoListAdapter(rawData);
   return { props: { photos } };
 };

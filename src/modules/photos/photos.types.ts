@@ -15,5 +15,5 @@ export type PhotoList = Photo[];
 export interface PhotosData {
   createPhotoAdapter(rawData: any): Photo;
   createPhotoListAdapter(rawData: any): PhotoList;
-  getPhotoList(): Promise<any>;
+  getPhotoList(filters: any): Promise<any>;
 }

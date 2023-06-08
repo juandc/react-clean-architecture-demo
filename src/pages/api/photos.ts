@@ -1,16 +1,15 @@
 import { UnsplashAPI } from '@/utils/unsplash';
 
 export default async function handler(req, res) {
-  // const { page, per_page, order_by } = req.query;
+  const { page, per_page, order_by } = req.query;
   
-  // const api = new UnsplashAPI();
-  // const { data, status } = await api.getPhotos({ page, per_page, order_by });
+  const api = new UnsplashAPI();
+  const { data, status } = await api.getPhotos({ page, per_page, order_by });
 
-  // console.log("WAEFSGHJKLSEDFHTGHJKHGFDSFGHJNK");
-  // data.map(x => console.log(x.urls))
+  data.results.map(x => console.log(x.created_at))
   
-  // res.status(status).json(data);
-  res.status(200).json(exampleData);
+  res.status(status).json(data.results);
+  // res.status(200).json(exampleData);
 }
 
 const exampleData = [

@@ -1,14 +1,17 @@
 import { Photo, PhotoList } from '@/modules/photos/photos.types';
 
 export type StoreState = {
+  orderBy: 'latest' | 'relevant';
+  search: string;
+  color: string;
   photos: Photo[],
   liked: Photo[],
   saved: Photo[],
 };
 
 export interface StoreDispatch {
+  setOrderBy(newOrderBy): void;
   setPhotos(newPhotos: PhotoList): void;
-  // addPhoto(newPhoto: Photo): void;
   setLiked(newLiked: PhotoList): void;
   addLike(newLiked: Photo): void;
   removeLike(likedItem: Photo): void;

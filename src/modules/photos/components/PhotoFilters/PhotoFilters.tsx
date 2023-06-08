@@ -1,5 +1,8 @@
 import React from 'react';
 import styles from './PhotoFilters.module.scss';
+import { PhotosHTTPData } from '@/modules/photos/photos.data';
+import { useStore } from '@/store/ContextStore';
+import { useRouter } from '@/utils/useRouter';
 
 export function PhotoFilters() {
   return (
@@ -11,25 +14,42 @@ export function PhotoFilters() {
 }
 
 function OrderByFilter() {
-  const [selectedOrder, setSelectedOrder] = React.useState('latest');
-  const [width, setWidth] = React.useState(6 * 13.5);
+  const { setPhotos, setOrderBy, orderBy, search, color } = useStore();
+  const router  = useRouter();
 
-  const handleChange = (e) => {
-    setSelectedOrder(e.target.value);
-    setWidth(e.target.value.length * 13);
-    // TODO: este width no está bien hecho :(
+  const handleChange = async (e) => {
+    const newOrderBy = e.target.value;
+    setOrderBy(newOrderBy);
+
+    router.replace({
+      pathname: router.pathname,
+      query: { ...router.query, order_by: newOrderBy },
+    });
+
+    const filters = {
+      search,
+      color,
+      order_by: newOrderBy,
+    };
+    
+    const photosData = new PhotosHTTPData();
+    const rawData = await photosData.getPhotoList(filters);
+    const photos = photosData.createPhotoListAdapter(rawData);
+    console.log({ photos });
+    
+    setPhotos(photos);
   };
   
   return (
     <div className={styles.orderby_container} >
       <select
         className={styles.orderby_select}
-        style={{ width }}
+        style={{ width: orderBy.length * 13.5 }}
         name="order_by"
-        value={selectedOrder}
+        value={orderBy}
         onChange={handleChange}
       >
-        {orderBy.map(({ value, txt }) => (
+        {orderByList.map(({ value, txt }) => (
           <option key={value} value={value}>{txt}</option>
         ))}
       </select>
@@ -37,9 +57,9 @@ function OrderByFilter() {
   );
 }
 
-const orderBy = [
-  { value: 'latest', txt: 'Latest' },
+const orderByList = [
   { value: 'relevant', txt: 'Relevant' },
+  { value: 'latest', txt: 'Latest' },
 ];
 
 function ColorsFilter() {

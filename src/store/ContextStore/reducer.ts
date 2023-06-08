@@ -2,6 +2,7 @@ import { PhotoList, Photo } from '@/modules/photos/photos.types';
 import { StoreState } from '../store.types';
 
 export const enum AppActionTypes {
+  SET_ORDERBY = 'SET_ORDERBY',
   SET_PHOTOS = 'SET_PHOTOS',
   ADD_PHOTOS = 'ADD_PHOTO',
   SET_LIKED = 'SET_LIKED',
@@ -9,15 +10,15 @@ export const enum AppActionTypes {
   REMOVE_LIKE = 'REMOVE_LIKE',
 };
 
+type SetOrderByPayload = {
+  type: AppActionTypes.SET_ORDERBY,
+  payload: 'latest' | 'relevant',
+};
+
 type SetPhotosPayload = {
   type: AppActionTypes.SET_PHOTOS,
   payload: PhotoList,
 };
-
-// type AddPhotoPayload = {
-//   type: AppActionTypes.ADD_PHOTOS,
-//   payload: Photo,
-// };
 
 type SetLikedPayload = {
   type: AppActionTypes.SET_LIKED,
@@ -35,28 +36,25 @@ type RemoveLikePayload = {
 };
 
 export type AppAction = (
-  SetPhotosPayload
-  // | AddPhotoPayload
+  SetOrderByPayload
+  | SetPhotosPayload
   | SetLikedPayload
   | AddLikePayload
   | RemoveLikePayload
 );
 
-export const appReducer = (state: StoreState, action: AppAction) => {
+export const appReducer = (state: StoreState, action: AppAction): StoreState => {
   switch (action.type) {
+    case AppActionTypes.SET_ORDERBY:
+      return {
+        ...state,
+        orderBy: action.payload,
+      };
     case AppActionTypes.SET_PHOTOS:
       return {
         ...state,
         photos: [...action.payload],
       };
-    // case AppActionTypes.ADD_PHOTOS:
-    //   return {
-    //     ...state,
-    //     photos: [
-    //       action.payload,
-    //       ...state.photos,
-    //     ],
-    //   };
     case AppActionTypes.SET_LIKED:
       return {
         ...state,

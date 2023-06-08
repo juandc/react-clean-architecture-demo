@@ -1,7 +1,7 @@
 import { PhotosData, Photo, PhotoList } from "./photos.types";
 
 export class PhotosHTTPData implements PhotosData {
-  createPhotoAdapter(rawData: any): Photo {
+  createPhotoAdapter(rawData) {
     return {
       id: rawData.id,
       description: rawData.description,
@@ -15,13 +15,39 @@ export class PhotosHTTPData implements PhotosData {
     };
   }
   
-  createPhotoListAdapter(rawData: any): PhotoList {
+  createPhotoListAdapter(rawData) {
     return rawData.map(this.createPhotoAdapter);
   }
 
-  async getPhotoList(): Promise<any> {
-    const res = await fetch('http://localhost:3000/api/photos');
+  private createPhotoFiltersAdapter(rawFilters) {
+    const allowed = {
+      order_by: ['latest', 'relevant'],
+    };
+
+    const order_by = allowed.order_by.includes(rawFilters.order_by)
+      ? rawFilters.order_by
+      : 'latest';
+    
+    const search = rawFilters.search || 'hello';
+    const per_page = rawFilters.per_page || 10;
+    const page = rawFilters.page || 1;
+    
+    return {
+      order_by,
+      search,
+      per_page,
+      page,
+    };
+  }
+
+  async getPhotoList(filters) {
+    const { order_by } = this.createPhotoFiltersAdapter(filters);
+    
+    const url = `http://localhost:3000/api/photos?search=null&order_by=${order_by}`;
+    const res = await fetch(url);
     const data = await res.json();
+    console.log({ url });
+    
     return data;
   }
 }
