@@ -13,10 +13,10 @@ export type StoreState = {
 };
 
 export interface StoreDispatch {
-  setOrderBy(newOrderBy): void;
-  setPhotos(newPhotos: PhotoList): void;
-  setOrderBy(orderBy: StoreState['orderBy']): void;
+  setOrderBy(newOrderBy: StoreState['orderBy']): void;
+  setSearch(newSearch: StoreState['search']): void;
   setColor(color: StoreState['color']): void;
+  setPhotos(newPhotos: PhotoList): void;
   setLiked(newLiked: PhotoList): void;
   addLike(newLiked: Photo): void;
   removeLike(likedItem: Photo): void;

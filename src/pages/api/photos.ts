@@ -1,7 +1,12 @@
 import { UnsplashAPI } from '@/utils/unsplash';
 
 export default async function handler(req, res) {
-  const { page, per_page, order_by, color } = req.query;
+  const { search, page, per_page, order_by, color } = req.query;
+
+  res.setHeader(
+    'Cache-Control',
+    'maxage=19, stale-while-revalidate=59',
+  );
 
   res.setHeader(
     'set-cookie',
@@ -13,13 +18,9 @@ export default async function handler(req, res) {
   else res.status(200).json(exampleData);
 
   // const api = new UnsplashAPI();
-  // const { data, status } = await api.getPhotos({ page, per_page, order_by, color });
+  // const { data, status } = await api.getPhotos({ search, page, per_page, order_by, color });
 
   // res.status(status).json(data.results);
-  // res.setHeader(
-  //   'Cache-Control',
-  //   'public, s-maxage=19, stale-while-revalidate=59',
-  // );
 }
 
 const exampleData = [

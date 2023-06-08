@@ -34,7 +34,7 @@ export class PhotosHTTPData implements PhotosData {
       : 'latest';
     
     const color = rawFilters.color || 'black_and_white';
-    const search = rawFilters.search || 'hello';
+    const search = rawFilters.search || 'dog';
     const per_page = rawFilters.per_page || 10;
     const page = rawFilters.page || 1;
     

@@ -14,6 +14,10 @@ export function useStore(): StoreAdapter {
     dispatch({ type: AppActionTypes.SET_ORDERBY, payload });
   };
   
+  const setSearch = (payload) => {
+    dispatch({ type: AppActionTypes.SET_SEARCH, payload });
+  };
+  
   const setColor = (payload) => {
     dispatch({ type: AppActionTypes.SET_COLOR, payload });
   };
@@ -40,9 +44,10 @@ export function useStore(): StoreAdapter {
     liked: state.liked,
     savedLoading: state.savedLoading,
     saved: state.saved,
-    setOrderBy,
-    setColor,
     setPhotos,
+    setOrderBy,
+    setSearch,
+    setColor,
     setLiked,
     addLike,
     removeLike,

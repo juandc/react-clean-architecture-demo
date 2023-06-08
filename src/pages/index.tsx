@@ -6,6 +6,8 @@ import { PhotosHTTPData } from '@/modules/photos/photos.data';
 import { PhotoFilters, PhotoSearch } from '@/modules/photos/components';
 import { LikedLocalStorageData } from '@/modules/liked/liked.data';
 import { useStore } from '@/store/ContextStore';
+import { useRouter } from '@/utils/useRouter';
+import { StoreState } from '@/store/store.types';
 
 export default function HomePage({
   photos: serverPhotos,
@@ -40,6 +42,7 @@ export default function HomePage({
 const useHome = (serverPhotos) => {
   const {
     orderBy,
+    setOrderBy,
     search,
     color,
     photosLoading,
@@ -48,6 +51,7 @@ const useHome = (serverPhotos) => {
     liked,
     setLiked,
   } = useStore();
+  const router = useRouter();
 
   const photosData = new PhotosHTTPData();
   
@@ -74,11 +78,11 @@ const useHome = (serverPhotos) => {
   const handleFirstLoad = () => {
     if (!photos.length && !!serverPhotos.length) setPhotos(serverPhotos);
     if (!liked.length) getLikedData();
+    if (orderBy !== router.query.order_by)
+      setOrderBy(router.query.order_by as StoreState['orderBy']);
   };
 
   const handleFiltersChange = () => {
-    console.log('handle filters change');
-    
     getPhotos();
   };
 

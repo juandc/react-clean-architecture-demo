@@ -8,19 +8,16 @@ export class UnsplashAPI {
     },
   })
 
-  async getPhotos({ page, per_page, query = 'hello', order_by, color }) {
+  async getPhotos({ page, per_page, search = 'dog', order_by, color }) {
     const { data, status } = await this.httpClient.get('/search/photos', {
       params: {
-        query,
+        query: search,
         page,
         per_page,
         order_by,
         color,
       },
     });
-    console.log({ data });
-    
-
     return { data, status };;
   }
 }
