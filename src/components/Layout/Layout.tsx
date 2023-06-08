@@ -59,10 +59,22 @@ export function Main({ children }) {
   );
 }
 
-export function MasonryList({ children }) {
+export function MasonryList({
+  isLoading,
+  loadingSkeleton: LoadingSkeleton,
+  children,
+}) {
   return (
     <div className={styles.masonry_container}>
-      {children}
+      {isLoading && (
+        <>
+          <LoadingSkeleton />
+          <LoadingSkeleton />
+          <LoadingSkeleton />
+        </>
+      )}
+      
+      {!isLoading && children}
     </div>
   );
 }

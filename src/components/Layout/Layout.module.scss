@@ -108,7 +108,13 @@
 }
 
 .masonry_container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  min-height: 800px;
   @media (min-width: $size-desktop-device) {
+    display: block;
     column-count: 2;
     margin-top: 20px;
     width: 100%;

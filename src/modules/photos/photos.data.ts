@@ -49,7 +49,6 @@ export class PhotosHTTPData implements PhotosData {
 
     const res = await fetch(url);
     const data = await res.json();
-    await new Promise(resolve => setTimeout(() => resolve(true), 400));
     
     return data;
   }

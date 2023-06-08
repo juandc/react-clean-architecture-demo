@@ -1,17 +1,20 @@
 import React from 'react';
 // import { GetServerSideProps } from 'next';
 import { LikedLocalStorageData } from '@/modules/liked/liked.data';
-import { Layout, MasonryList, PhotoCard } from '@/components';
+import { Layout, MasonryList, PhotoCard, PhotoCardSkeleton } from '@/components';
 import { useStore } from '@/store/ContextStore';
 
 export default function LikedPage() {
-  const { liked } = useLiked();
+  const { liked, likedLoading } = useLiked();
 
   return (
     <Layout
       title="Liked photographies"
     >
-      <MasonryList>
+      <MasonryList
+        isLoading={likedLoading}
+        loadingSkeleton={PhotoCardSkeleton}
+      >
         {liked.map(photo => (
           <PhotoCard key={photo.id} {...photo} isLiked={true} />
         ))}
@@ -21,7 +24,7 @@ export default function LikedPage() {
 }
 
 function useLiked() {
-  const { liked, setLiked } = useStore();
+  const { liked, likedLoading, setLiked } = useStore();
 
   const getLikedData = async () => {
     const likedData = new LikedLocalStorageData();
@@ -36,5 +39,6 @@ function useLiked() {
   
   return {
     liked,
+    likedLoading,
   };
 }

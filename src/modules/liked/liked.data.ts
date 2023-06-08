@@ -21,7 +21,7 @@ export class LikedLocalStorageData implements LikedData {
   
   private itemName = 'liked_v2';
   private defaultItemValue = [];
-  private timeoutms = 400;
+  private timeoutms = 1000;
 
   async getLiked(): Promise<any> {
     const timeout = resolve => setTimeout(() => resolve(

@@ -1,14 +1,30 @@
 @import "@/styles/_vars";
 
+@keyframes load {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .card_container {
+  @include load-animation;
   border-radius: 12.5px;
   background-color: $color-bg;
   position: relative;
   display: flex;
   width: 100%;
+  min-height: 200px;
   max-width: 400px;
   margin-top: 20px;
   overflow: hidden;
+
+  &__loading {
+    @include loading-animation;
+    background-color: $color-elevation;
+  }
 
   @media (min-width: $size-desktop-device) {
     margin-top: 0;

@@ -6,8 +6,11 @@ const initialState: StoreState = {
   color: 'black_and_white',
   orderBy: 'latest',
   search: '',
+  photosLoading: true,
   photos: [],
+  likedLoading: true,
   liked: [],
+  savedLoading: true,
   saved: [],
 };
 
@@ -23,8 +26,11 @@ export function AppProvider({ children, serverProps }) {
     color: serverProps.color || initialState.color,
     orderBy: serverProps.order_by || initialState.orderBy,
     search: serverProps.search || initialState.search,
+    photosLoading: serverProps?.photos?.length ? false : true,
     photos: serverProps.photos || initialState.photos,
+    likedLoading: serverProps?.liked?.length ? false : true,
     liked: serverProps.liked || initialState.liked,
+    savedLoading: serverProps?.saved?.length ? false : true,
     saved: serverProps.saved || initialState.saved,
   });
 

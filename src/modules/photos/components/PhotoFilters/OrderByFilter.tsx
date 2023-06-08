@@ -1,4 +1,3 @@
-import { PhotosHTTPData } from '@/modules/photos/photos.data';
 import { useStore } from '@/store/ContextStore';
 import { useRouter } from '@/utils/useRouter';
 import styles from './PhotoFilters.module.scss';
@@ -30,36 +29,16 @@ export function OrderByFilter() {
 function useOrderBy() {
   const {
     orderBy,
-    search,
-    color,
-    changeOrder,
+    setOrderBy: setStoreOrderBy,
   } = useStore();
   const router  = useRouter();
-  const photosData = new PhotosHTTPData();
-
-  const getNewPhotos = async (newOrderBy, callback) => {
-    const filters = { search, color, order_by: newOrderBy };
-    const rawData = await photosData.getPhotoList(filters);
-    const photos = photosData.createPhotoListAdapter(rawData);
-    callback({ orderBy: newOrderBy, photos });
-  };
   
-  const replaceRoute = (newOrderBy) => {
+  const setOrderBy = (newOrderBy) => {
     router.replace({
       pathname: router.pathname,
       query: { ...router.query, order_by: newOrderBy },
     });
-  };
-
-  const updateStore = (payload) => {
-    changeOrder(payload);
-  };
-
-  const setOrderBy = (newOrderBy) => {
-    getNewPhotos(newOrderBy, payload => {
-      replaceRoute(payload.orderBy);
-      updateStore(payload);
-    });
+    setStoreOrderBy(newOrderBy);
   };
 
   return [orderBy, setOrderBy] as const;

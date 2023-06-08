@@ -9,6 +9,11 @@ export default async function handler(req, res) {
   // data.results.map(x => console.log(x.created_at))
   
   // res.status(status).json(data.results);
+  // res.setHeader(
+  //   'Cache-Control',
+  //   'public, s-maxage=19, stale-while-revalidate=59',
+  // );
+  await new Promise(resolve => setTimeout(() => resolve(true), 1000));
   if (order_by == 'relevant') res.status(200).json(exampleDataRelevant);
   else res.status(200).json(exampleData);
 }

@@ -42,12 +42,12 @@ export function PhotoCard(props: PhotoCardProps) {
 }
 
 function useLiked(photo) {
-  const { addLike, removeLike } = useStore();
+  const { likedLoading, addLike, removeLike } = useStore();
+  const likedData = new LikedLocalStorageData();
   
   const handleLike = async () => {
-    const likedData = new LikedLocalStorageData();
+    if (likedLoading) return;
     const wasLiked = await likedData.toggleLike(photo);
-
     if (wasLiked) removeLike(photo);
     else addLike(photo);
   }
@@ -73,5 +73,14 @@ function PhotoButton(props) {
       <span className={styles.photobutton_bg}></span>
       <span className={styles.photobutton_icon}></span>
     </button>
+  );
+}
+
+export function PhotoCardSkeleton() {
+  return (
+    <div className={`
+      ${styles.card_container}
+      ${styles.card_container__loading}
+    `} />
   );
 }

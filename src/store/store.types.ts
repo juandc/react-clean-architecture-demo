@@ -4,18 +4,18 @@ export type StoreState = {
   orderBy: 'latest' | 'relevant';
   search: string;
   color: string;
+  photosLoading: boolean;
   photos: Photo[],
+  likedLoading: boolean;
   liked: Photo[],
+  savedLoading: boolean;
   saved: Photo[],
 };
 
 export interface StoreDispatch {
   setOrderBy(newOrderBy): void;
   setPhotos(newPhotos: PhotoList): void;
-  changeOrder(payload: {
-    orderBy: StoreState['orderBy'],
-    photos: PhotoList,
-  }): void;
+  setOrderBy(orderBy: StoreState['orderBy']): void;
   setLiked(newLiked: PhotoList): void;
   addLike(newLiked: Photo): void;
   removeLike(likedItem: Photo): void;

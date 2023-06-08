@@ -92,9 +92,28 @@ $size-desktop-device: 1024px;
   }
 }
 
-// @mixin element_transparent {
-//   @include bg-transition;
-  
-// }
+@keyframes load {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 
-// cards container width 888px
+@keyframes loading {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@mixin load-animation {
+  animation: 300ms linear 0s 1 load;
+}
+
+@mixin loading-animation {
+  animation: 1000ms ease-in 0s infinite loading;
+}
