@@ -1,21 +1,25 @@
 import { UnsplashAPI } from '@/utils/unsplash';
 
 export default async function handler(req, res) {
-  const { page, per_page, order_by } = req.query;
-  
-  // const api = new UnsplashAPI();
-  // const { data, status } = await api.getPhotos({ page, per_page, order_by });
+  const { page, per_page, order_by, color } = req.query;
 
-  // data.results.map(x => console.log(x.created_at))
-  
+  res.setHeader(
+    'set-cookie',
+    `color=${color || 'black_and_white'}; path=/; samesite=lax;`
+  );
+
+  await new Promise(resolve => setTimeout(() => resolve(true), 1000));
+  if (order_by == 'relevant') res.status(200).json(exampleDataRelevant);
+  else res.status(200).json(exampleData);
+
+  // const api = new UnsplashAPI();
+  // const { data, status } = await api.getPhotos({ page, per_page, order_by, color });
+
   // res.status(status).json(data.results);
   // res.setHeader(
   //   'Cache-Control',
   //   'public, s-maxage=19, stale-while-revalidate=59',
   // );
-  await new Promise(resolve => setTimeout(() => resolve(true), 1000));
-  if (order_by == 'relevant') res.status(200).json(exampleDataRelevant);
-  else res.status(200).json(exampleData);
 }
 
 const exampleData = [

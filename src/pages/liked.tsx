@@ -1,15 +1,16 @@
 import React from 'react';
-// import { GetServerSideProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { LikedLocalStorageData } from '@/modules/liked/liked.data';
 import { Layout, MasonryList, PhotoCard, PhotoCardSkeleton } from '@/components';
 import { useStore } from '@/store/ContextStore';
 
 export default function LikedPage() {
-  const { liked, likedLoading } = useLiked();
+  const { liked, likedLoading, color } = useLiked();
 
   return (
     <Layout
       title="Liked photographies"
+      color={color}
     >
       <MasonryList
         isLoading={likedLoading}
@@ -24,7 +25,7 @@ export default function LikedPage() {
 }
 
 function useLiked() {
-  const { liked, likedLoading, setLiked } = useStore();
+  const { liked, likedLoading, setLiked, color } = useStore();
 
   const getLikedData = async () => {
     const likedData = new LikedLocalStorageData();
@@ -40,5 +41,16 @@ function useLiked() {
   return {
     liked,
     likedLoading,
+    color,
   };
 }
+
+export const getServerSideProps: GetServerSideProps<{
+  color: string;
+}> = async ({ req }) => {
+  const filters = {
+    color: req.cookies.color ? String(req.cookies.color) : 'black_and_white',
+  };
+
+  return { props: { ...filters } };
+};

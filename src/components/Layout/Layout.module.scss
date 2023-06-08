@@ -1,5 +1,17 @@
 @import "@/styles/_vars";
 
+.layout_container {
+  background-color: $color-bg;
+  color: $color-txt;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: scroll;
+  z-index: -1;
+}
+
 .nav_container {
   @include container_padding;
   background-color: $color-bg;

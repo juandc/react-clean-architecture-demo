@@ -13,6 +13,10 @@ export function useStore(): StoreAdapter {
   const setOrderBy = (payload) => {
     dispatch({ type: AppActionTypes.SET_ORDERBY, payload });
   };
+  
+  const setColor = (payload) => {
+    dispatch({ type: AppActionTypes.SET_COLOR, payload });
+  };
 
   const setLiked = (payload) => {
     dispatch({ type: AppActionTypes.SET_LIKED, payload });
@@ -36,8 +40,9 @@ export function useStore(): StoreAdapter {
     liked: state.liked,
     savedLoading: state.savedLoading,
     saved: state.saved,
-    setPhotos,
     setOrderBy,
+    setColor,
+    setPhotos,
     setLiked,
     addLike,
     removeLike,

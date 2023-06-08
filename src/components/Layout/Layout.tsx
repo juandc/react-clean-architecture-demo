@@ -2,19 +2,20 @@ import React, { PropsWithChildren } from 'react';
 import styles from './Layout.module.scss';
 import { Link } from '../Link';
 
-type LayoutTypes = HeaderTypes;
+type LayoutTypes = HeaderTypes & { color: string };
 
 export function Layout({
   title,
   subtitle,
+  color,
   children,
 }: PropsWithChildren<LayoutTypes>) {
   return (
-    <>
+    <div className={`${styles.layout_container} ${color}`}>
       <Navbar />
       <Header title={title} subtitle={subtitle} />
       <Main>{children}</Main>
-    </>
+    </div>
   );
 }
 

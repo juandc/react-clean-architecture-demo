@@ -4,6 +4,7 @@ import { StoreState } from '../store.types';
 export const enum AppActionTypes {
   SET_PHOTOS = 'SET_PHOTOS',
   SET_ORDERBY = 'SET_ORDERBY',
+  SET_COLOR = 'SET_COLOR',
   SET_LIKED = 'SET_LIKED',
   ADD_LIKE = 'ADD_LIKE',
   REMOVE_LIKE = 'REMOVE_LIKE',
@@ -17,6 +18,11 @@ type SetPhotosPayload = {
 type SetOrderByPayload = {
   type: AppActionTypes.SET_ORDERBY,
   payload: StoreState['orderBy'],
+};
+
+type SetColorPayload = {
+  type: AppActionTypes.SET_COLOR,
+  payload: StoreState['color'],
 };
 
 type SetLikedPayload = {
@@ -37,6 +43,7 @@ type RemoveLikePayload = {
 export type AppAction = (
   SetPhotosPayload
   | SetOrderByPayload
+  | SetColorPayload
   | SetLikedPayload
   | AddLikePayload
   | RemoveLikePayload
@@ -54,6 +61,12 @@ export const appReducer = (state: StoreState, action: AppAction): StoreState => 
       return {
         ...state,
         orderBy: action.payload,
+        photosLoading: true,
+      };
+    case AppActionTypes.SET_COLOR:
+      return {
+        ...state,
+        color: action.payload,
         photosLoading: true,
       };
     case AppActionTypes.SET_LIKED:

@@ -10,12 +10,13 @@ import { useStore } from '@/store/ContextStore';
 export default function HomePage({
   photos: serverPhotos,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { photos, photosLoading, isLiked } = useHome(serverPhotos);
+  const { photos, photosLoading, isLiked, color } = useHome(serverPhotos);
 
   return (
     <Layout
       title="Quality work from expert photographers"
       subtitle="Find and save the best photographies, all in one place."
+      color={color}
     >
       <PhotoSearch />
       <PhotoFilters />
@@ -38,9 +39,10 @@ export default function HomePage({
 
 const useHome = (serverPhotos) => {
   const {
-    photosLoading,
     orderBy,
     search,
+    color,
+    photosLoading,
     photos,
     setPhotos,
     liked,
@@ -53,6 +55,7 @@ const useHome = (serverPhotos) => {
     const filters = {
       order_by: orderBy,
       search,
+      color,
     };
     const rawData = await photosData.getPhotoList(filters);
     const newPhotos = photosData.createPhotoListAdapter(rawData);
@@ -85,9 +88,10 @@ const useHome = (serverPhotos) => {
     } else {
       handleFiltersChange();
     }
-  }, [orderBy, search]);
+  }, [orderBy, search, color]);
 
   return {
+    color,
     photos,
     photosLoading,
     isLiked,
@@ -98,14 +102,17 @@ export const getServerSideProps: GetServerSideProps<{
   photos: PhotoList;
   order_by: string;
   search: string;
-}> = async ({ res, query }) => {
+  color: string;
+}> = async ({ res, query, req }) => {
   // res.setHeader(
   //   'Cache-Control',
   //   'public, s-maxage=19, stale-while-revalidate=59',
   // );
+
   const filters = {
     order_by: query.order_by ? String(query.order_by) : 'latest',
     search: query.search ? String(query.search) : '',
+    color: req.cookies.color ? String(req.cookies.color) : 'black_and_white',
   };
   const photosData = new PhotosHTTPData();
   const rawData = await photosData.getPhotoList(filters);

@@ -1,19 +1,20 @@
 import React from 'react';
+import { useStore } from '@/store/ContextStore';
 import styles from './PhotoFilters.module.scss';
 
 export function ColorsFilter() {
-  const [selectedColor, setSelectedColor] = React.useState('red');
+  const { color, setColor } = useStore();
 
   const handleChange = (e) => {
-    setSelectedColor(e.target.value);
+    setColor(e.target.value);
   };
 
   return (
     <div className={styles.color_container}>
       <select
-        className={`${styles.color_select} ${selectedColor}`}
+        className={`${styles.color_select} ${color}`}
         name="color"
-        value={selectedColor}
+        value={color}
         onChange={handleChange}
       >
         {colors.map(({ label, options }) => (
