@@ -1,4 +1,4 @@
-import { PhotosData, Photo, PhotoList } from "./photos.types";
+import { PhotosData } from "./photos.types";
 
 export class PhotosHTTPData implements PhotosData {
   createPhotoAdapter(rawData) {
@@ -41,12 +41,15 @@ export class PhotosHTTPData implements PhotosData {
   }
 
   async getPhotoList(filters) {
-    const { order_by } = this.createPhotoFiltersAdapter(filters);
+    const { order_by, search } = this.createPhotoFiltersAdapter(filters);
     
-    const url = `http://localhost:3000/api/photos?search=null&order_by=${order_by}`;
+    const baseUrl = `http://localhost:3000/api/photos`;
+    const params = `?search=${search}&order_by=${order_by}`;
+    const url = `${baseUrl}${params}`;
+
     const res = await fetch(url);
     const data = await res.json();
-    console.log({ url });
+    await new Promise(resolve => setTimeout(() => resolve(true), 400));
     
     return data;
   }

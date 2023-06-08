@@ -13,11 +13,7 @@ export default function LikedPage() {
     >
       <MasonryList>
         {liked.map(photo => (
-          <PhotoCard
-            key={photo.id}
-            isLiked={true}
-            {...photo}
-          />
+          <PhotoCard key={photo.id} {...photo} isLiked={true} />
         ))}
       </MasonryList>
     </Layout>

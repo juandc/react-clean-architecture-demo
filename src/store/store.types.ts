@@ -12,6 +12,10 @@ export type StoreState = {
 export interface StoreDispatch {
   setOrderBy(newOrderBy): void;
   setPhotos(newPhotos: PhotoList): void;
+  changeOrder(payload: {
+    orderBy: StoreState['orderBy'],
+    photos: PhotoList,
+  }): void;
   setLiked(newLiked: PhotoList): void;
   addLike(newLiked: Photo): void;
   removeLike(likedItem: Photo): void;

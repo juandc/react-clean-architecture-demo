@@ -6,39 +6,28 @@ import { AppActionTypes } from './reducer';
 export function useStore(): StoreAdapter {
   const [state, dispatch] = React.useContext(AppContext);
 
-  const setOrderBy = (payload) => {
-    dispatch({
-      type: AppActionTypes.SET_ORDERBY,
-      payload,
-    })
-  };
-
   const setPhotos = (payload) => {
-    dispatch({
-      type: AppActionTypes.SET_PHOTOS,
-      payload,
-    })
+    dispatch({ type: AppActionTypes.SET_PHOTOS, payload });
+  };
+  
+  const setOrderBy = (payload) => {
+    dispatch({ type: AppActionTypes.SET_ORDERBY, payload });
+  };
+  
+  const changeOrder = (payload) => {
+    dispatch({ type: AppActionTypes.CHANGE_ORDER, payload });
   };
 
   const setLiked = (payload) => {
-    dispatch({
-      type: AppActionTypes.SET_LIKED,
-      payload,
-    })
+    dispatch({ type: AppActionTypes.SET_LIKED, payload });
   };
 
   const addLike = (payload) => {
-    dispatch({
-      type: AppActionTypes.ADD_LIKE,
-      payload,
-    })
+    dispatch({ type: AppActionTypes.ADD_LIKE, payload });
   };
 
   const removeLike = (payload) => {
-    dispatch({
-      type: AppActionTypes.REMOVE_LIKE,
-      payload,
-    })
+    dispatch({ type: AppActionTypes.REMOVE_LIKE, payload });
   };
   
   return {
@@ -48,8 +37,9 @@ export function useStore(): StoreAdapter {
     photos: state.photos,
     liked: state.liked,
     saved: state.saved,
-    setOrderBy,
     setPhotos,
+    setOrderBy,
+    changeOrder,
     setLiked,
     addLike,
     removeLike,

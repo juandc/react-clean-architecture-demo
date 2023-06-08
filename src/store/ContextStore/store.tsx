@@ -21,7 +21,7 @@ export const AppContext = React.createContext<AppContextType>([initialState, () 
 export function AppProvider({ children, serverProps }) {
   const [state, dispatch] = React.useReducer(appReducer, {
     color: serverProps.color || initialState.color,
-    orderBy: serverProps.orderBy || initialState.orderBy,
+    orderBy: serverProps.order_by || initialState.orderBy,
     search: serverProps.search || initialState.search,
     photos: serverProps.photos || initialState.photos,
     liked: serverProps.liked || initialState.liked,

@@ -1,7 +1,7 @@
-import { LikedData, LikedItem, LikedList } from './liked.types';
+import { LikedData } from './liked.types';
 
 export class LikedLocalStorageData implements LikedData {
-  createLikedItemAdapter(rawData): LikedItem {
+  createLikedItemAdapter(rawData) {
     return {
       id: rawData.id,
       description: rawData.description,
@@ -15,21 +15,24 @@ export class LikedLocalStorageData implements LikedData {
     };
   }
   
-  createLikedListAdapter(rawData): LikedList {
+  createLikedListAdapter(rawData) {
     return rawData.map(this.createLikedItemAdapter);
   }
   
   private itemName = 'liked_v2';
   private defaultItemValue = [];
-  
+  private timeoutms = 400;
+
   async getLiked(): Promise<any> {
-    const data = await Promise.resolve(
+    const timeout = resolve => setTimeout(() => resolve(
       JSON.parse(localStorage.getItem(this.itemName))
       || this.defaultItemValue
-    );
+    ), this.timeoutms);
+    const data = await new Promise(timeout);
     return data;
   }
-  async toggleLike(newValue: LikedItem): Promise<boolean> {
+
+  async toggleLike(newValue): Promise<boolean> {
     const list = await this.getLiked();
     const likedIndex = list.findIndex(x => x.id == newValue.id)
     const wasLiked = likedIndex > -1;

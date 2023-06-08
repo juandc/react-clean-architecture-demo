@@ -64,15 +64,16 @@ const useHome = (serverPhotos) => {
 
 export const getServerSideProps: GetServerSideProps<{
   photos: PhotoList;
+  order_by: string;
+  search: string;
 }> = async ({ query }) => {
   const filters = {
-    order_by: String(query.order_by) || 'latest',
-    search: String(query.search) || null,
+    order_by: query.order_by ? String(query.order_by) : 'latest',
+    search: query.search ? String(query.search) : '',
   };
-
   const photosData = new PhotosHTTPData();
   const rawData = await photosData.getPhotoList(filters);
   const photos = photosData.createPhotoListAdapter(rawData);
-  return { props: { photos } };
+  return { props: { photos, ...filters } };
 };
  
