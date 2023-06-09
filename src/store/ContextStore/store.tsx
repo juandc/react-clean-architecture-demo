@@ -34,7 +34,7 @@ export function AppProvider({ children, serverProps }) {
     saved: serverProps.saved || initialState.saved,
   });
 
-  // console.log({ state });
+  console.log({ state });
 
   return (
     <AppContext.Provider value={[state, dispatch]}>

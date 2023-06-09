@@ -261,3 +261,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Tests
+test-results
+test-results/*
+test-results/**

@@ -78,7 +78,7 @@ const useHome = (serverPhotos) => {
   const handleFirstLoad = () => {
     if (!photos.length && !!serverPhotos.length) setPhotos(serverPhotos);
     if (!liked.length) getLikedData();
-    if (orderBy !== router.query.order_by)
+    if (router.query.order_by && orderBy !== router.query.order_by)
       setOrderBy(router.query.order_by as StoreState['orderBy']);
   };
 
@@ -122,6 +122,8 @@ export const getServerSideProps: GetServerSideProps<{
     search: query.search ? String(query.search) : '',
     color: req.cookies.color ? String(req.cookies.color) : 'black_and_white',
   };
+  console.log({ filters });
+  
   const photosData = new PhotosHTTPData();
   const rawData = await photosData.getPhotoList(filters);
   const photos = photosData.createPhotoListAdapter(rawData);
