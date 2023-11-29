@@ -131,6 +131,7 @@
   flex-wrap: wrap;
   width: 100%;
   min-height: 800px;
+  margin-bottom: 20px;
   @media (min-width: $size-desktop-device) {
     display: block;
     column-count: 2;
