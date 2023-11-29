@@ -65,7 +65,8 @@
 }
 
 .color_select {
-  padding: 0 12px;
-  text-align: center;
-  font-size: 0;
+  color: var(--color-txt);
+  width: fit-content;
+  text-align: right;
+  padding: 0 32px 0 0;
 }
