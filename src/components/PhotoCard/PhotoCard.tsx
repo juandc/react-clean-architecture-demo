@@ -3,6 +3,7 @@ import { useStore } from '@/store/ContextStore';
 import type { Photo } from '@/modules/photos/photos.types';
 import { LikedLocalStorageData } from '@/modules/liked/liked.data';
 import { SavedLocalStorageData } from '@/modules/saved/saved.data';
+import { LikeIcon, SaveIcon } from '@/utils/icons';
 import styles from './PhotoCard.module.scss';
 
 type PhotoCardProps = Photo & {
@@ -85,20 +86,28 @@ function useSaved(photo) {
 }
 
 function PhotoButton(props) {
-  const style = `
+  const btnStyles = `
     ${styles.photobutton_container}
     ${props.type === 'like' && styles.photobutton_container__like}
     ${props.type === 'save' && styles.photobutton_container__save}
     ${props.isActive && styles.photobutton_container__active}
   `;
 
+  const iconStyles = `
+    ${styles.photobutton_icon}
+    ${props.isActive && styles.photobutton_icon__active}
+  `;
+
   return (
     <button
-      className={style}
+      className={btnStyles}
       onClick={props.onClick}
     >
       <span className={styles.photobutton_bg}></span>
-      <span className={styles.photobutton_icon}></span>
+      <span className={iconStyles}>
+        {props.type === 'save' && <SaveIcon />}
+        {props.type === 'like' && <LikeIcon />}
+      </span>
     </button>
   );
 }

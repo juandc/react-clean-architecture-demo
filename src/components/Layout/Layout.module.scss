@@ -67,6 +67,12 @@
     width: 100%;
     height: 100%;
   }
+
+  & svg {
+    stroke: $color-txt;
+    height: 24px;
+    width: 24px;
+  }
 }
 
 .header_container {

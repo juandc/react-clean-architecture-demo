@@ -1,6 +1,7 @@
 import React, { PropsWithChildren } from 'react';
-import styles from './Layout.module.scss';
+import { LikeIcon, SaveIcon } from '@/utils/icons';
 import { Link } from '../Link';
+import styles from './Layout.module.scss';
 
 type LayoutTypes = HeaderTypes & { color: string };
 
@@ -28,10 +29,14 @@ export function Navbar() {
 
       <ul className={styles.nav_list}>
         <li className={`${styles.nav_listitem} ${styles.nav_listitem__saved}`}>
-          <Link href="/saved">S</Link>
+          <Link href="/saved">
+            <SaveIcon />
+          </Link>
         </li>
         <li className={`${styles.nav_listitem} ${styles.nav_listitem__liked}`}>
-          <Link href="/liked">L</Link>
+          <Link href="/liked">
+            <LikeIcon />
+          </Link>
         </li>
       </ul>
     </nav>

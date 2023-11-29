@@ -52,12 +52,16 @@
     background-color: $color-bg-hover-elevation;
   }
   
-  @at-root #{&}__save#{&}__active {
-    background-color: blue;
-  }
-
-  @at-root #{&}__like#{&}__active {
-    background-color: red;
+  @at-root
+  #{&}__save#{&}__active,
+  #{&}__like#{&}__active {
+    .photobutton_bg {
+      background-color: $color-txt;
+    }
+    .photobutton_icon svg {
+      fill: $color-bg;
+      stroke: none;
+    }
   }
 }
 
@@ -71,8 +75,19 @@
 
 .photobutton_icon {
   position: absolute;
-  background: $color-txt;
   border-radius: 50px;
-  height: 14px;
-  width: 14px;
+
+  &, & svg {
+    height: 16px;
+    width: 16px;
+  }
+
+  &__active {
+    background-color: $color-txt;
+  }
+
+  & svg {
+    fill: $color-elevation;
+    stroke: $color-txt;
+  }
 }
