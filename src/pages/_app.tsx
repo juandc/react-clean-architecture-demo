@@ -1,12 +1,30 @@
-import { AppProvider } from '@/store/ContextStore';
+import type { PropsWithChildren } from 'react';
+import { AppProvider, useStore } from '@/store/ContextStore';
+import type { HeaderTypes } from '@/components';
+import { Layout } from '@/components';
 import '@/styles/globals.scss';
 
-function MyApp({ Component, pageProps }) {
+function PagesWrapper({ Component, pageProps }) {
   return (
     <AppProvider serverProps={pageProps}>
-      <Component {...pageProps} />
+      <AppWithLayout {...pageProps}>
+        <Component {...pageProps} />
+      </AppWithLayout>
     </AppProvider>
   );
 }
 
-export default MyApp;
+function AppWithLayout({
+  title,
+  subtitle,
+  children,
+}: PropsWithChildren<HeaderTypes>) {
+  const { color } = useStore();
+  return (
+    <Layout title={title} subtitle={subtitle} color={color}>
+      {children}
+    </Layout>
+  );
+}
+
+export default PagesWrapper;

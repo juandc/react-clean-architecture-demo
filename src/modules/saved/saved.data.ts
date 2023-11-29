@@ -46,3 +46,5 @@ export class SavedLocalStorageData implements SavedData {
     return wasSaved;
   }
 }
+
+export const savedData = new SavedLocalStorageData();

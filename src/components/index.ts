@@ -1,3 +1,4 @@
+export * from './Layout';
+export * from './MasonryList/MasonryList';
+export * from './PhotoCard';
 export * from './Link';
-export * from './Layout/Layout';
-export * from './PhotoCard/PhotoCard';

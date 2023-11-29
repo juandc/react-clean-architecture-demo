@@ -60,3 +60,5 @@ export class PhotosHTTPData implements PhotosData {
     return data;
   }
 }
+
+export const photosData = new PhotosHTTPData();

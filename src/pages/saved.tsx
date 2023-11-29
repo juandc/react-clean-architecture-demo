@@ -1,55 +1,37 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import { SavedLocalStorageData } from '@/modules/saved/saved.data';
-import { useStore } from '@/store/ContextStore';
-import { Layout, MasonryList, PhotoCard, PhotoCardSkeleton } from '@/components';
+import { MasonryList, PhotoCard } from '@/components';
+import { useLikedAndSaved } from '@/hooks/useLikedAndSaved';
 
 export default function SavedPage() {
-  const { saved, savedLoading, color } = useSaved();
+  const { saved, savedLoading, isLiked } = useLikedAndSaved();
   
   return (
-    <Layout
-      title="Saved photographies"
-      color={color}
-    >
-      <MasonryList
-        isLoading={savedLoading}
-        loadingSkeleton={PhotoCardSkeleton}
-      >
-        {saved.map(photo => (
-          <PhotoCard key={photo.id} {...photo} isSaved={true} />
-        ))}
-      </MasonryList>
-    </Layout>
+    <MasonryList isLoading={savedLoading}>
+      {saved.map(photo => (
+        <PhotoCard
+          key={photo.id}
+          {...photo}
+          isSaved={true}
+          isLiked={isLiked(photo.id)}
+        />
+      ))}
+    </MasonryList>
   );
 }
 
-function useSaved() {
-  const { saved, savedLoading, setSaved, color } = useStore();
-
-  const getSavedData = async () => {
-    const savedData = new SavedLocalStorageData();
-    const rawData = await savedData.getSaved();
-    const savedList = savedData.createSavedListAdapter(rawData);
-    setSaved(savedList);
-  };
-
-  React.useEffect(() => {
-    if (!saved.length) getSavedData();
-  }, []);
-  
-  return {
-    saved,
-    savedLoading,
-    color,
-  };
-}
-
-export const getServerSideProps: GetServerSideProps<{}> = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps<{
+  color: string;
+}> = async ({ req }) => {
   const filters = {
-    color: req.cookies.color ? String(req.cookies.color) : 'black_and_white',
+    color: `${req.cookies.color || 'black_and_white'}`,
   };
 
-  return { props: { ...filters } };
+  return {
+    props: {
+      title: "Saved photographies",
+      ...filters
+    },
+  };
 };
  

@@ -1,7 +1,7 @@
-import type { LikedData } from './liked.types';
+import type { LikedData, LikedItem, LikedList } from './liked.types';
 
 export class LikedLocalStorageData implements LikedData {
-  createLikedItemAdapter(rawData) {
+  createLikedItemAdapter(rawData): LikedItem {
     return {
       id: rawData.id,
       description: rawData.description,
@@ -15,7 +15,7 @@ export class LikedLocalStorageData implements LikedData {
     };
   }
   
-  createLikedListAdapter(rawData) {
+  createLikedListAdapter(rawData): LikedList {
     return rawData.map(this.createLikedItemAdapter);
   }
   
@@ -46,3 +46,5 @@ export class LikedLocalStorageData implements LikedData {
     return wasLiked;
   }
 }
+
+export const likedData = new LikedLocalStorageData();

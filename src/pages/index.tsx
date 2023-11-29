@@ -1,13 +1,13 @@
-import React from 'react';
+import { useEffect, useRef } from 'react';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import type { PhotoList } from '@/modules/photos/photos.types';
-import { PhotosHTTPData } from '@/modules/photos/photos.data';
-import { PhotoFilters, PhotoSearch } from '@/modules/photos/components';
-import { LikedLocalStorageData } from '@/modules/liked/liked.data';
-import { SavedLocalStorageData } from '@/modules/saved/saved.data';
 import type { StoreState } from '@/store/store.types';
 import { useStore } from '@/store/ContextStore';
-import { Layout, MasonryList, PhotoCard, PhotoCardSkeleton } from '@/components';
+import type { Photo, PhotoList } from '@/modules/photos/photos.types';
+import { getPhotosListUtil } from '@/modules/photos/photos.utils';
+import { PhotoFilters, PhotoSearch } from '@/modules/photos/components';
+import { getLikedDataUtil } from '@/modules/liked/liked.utils';
+import { getSavedDataUtil } from '@/modules/saved/saved.utils';
+import { MasonryList, PhotoCard } from '@/components';
 import { useRouter } from '@/utils/useRouter';
 
 export default function HomePage({
@@ -18,22 +18,14 @@ export default function HomePage({
     photosLoading,
     isLiked,
     isSaved,
-    color,
   } = useHome(serverPhotos);
 
   return (
-    <Layout
-      title="Quality work from expert photographers"
-      subtitle="Find and save the best photographies, all in one place."
-      color={color}
-    >
+    <>
       <PhotoSearch />
       <PhotoFilters />
 
-      <MasonryList
-        isLoading={photosLoading}
-        loadingSkeleton={PhotoCardSkeleton}
-      >
+      <MasonryList isLoading={photosLoading}>
         {photos.map(photo => (
           <PhotoCard
             key={photo.id}
@@ -43,70 +35,71 @@ export default function HomePage({
           />
         ))}
       </MasonryList>
-    </Layout>
+    </>
   );
 }
 
 const useHome = (serverPhotos) => {
   const {
-    orderBy,
-    setOrderBy,
-    search,
-    color,
-    photosLoading,
     photos,
+    photosLoading,
     setPhotos,
     liked,
     setLiked,
     saved,
     setSaved,
+    orderBy,
+    setOrderBy,
+    search,
+    color,
   } = useStore();
   const router = useRouter();
 
-  const photosData = new PhotosHTTPData();
-  
   const getPhotos = async () => {
     const filters = {
       order_by: orderBy,
       search,
       color,
     };
-    const rawData = await photosData.getPhotoList(filters);
-    const newPhotos = photosData.createPhotoListAdapter(rawData);
-    setPhotos(newPhotos);
+    const photosList = await getPhotosListUtil(filters);
+    setPhotos(photosList);
   };
   
   const getLikedData = async () => {
-    const likedData = new LikedLocalStorageData();
-    const rawData = await likedData.getLiked();
-    const likedList = likedData.createLikedListAdapter(rawData);
+    const likedList = await getLikedDataUtil();
     setLiked(likedList);
   };
   
   const getSavedData = async () => {
-    const savedData = new SavedLocalStorageData();
-    const rawData = await savedData.getSaved();
-    const savedList = savedData.createSavedListAdapter(rawData);
+    const savedList = await getSavedDataUtil();
     setSaved(savedList);
   };
 
-  const isLiked = (id) => liked.some(p => p.id == id);
+  const isLiked = (id: Photo["id"]) => liked.some(p => p.id == id);
 
-  const isSaved = (id) => saved.some(p => p.id == id);
+  const isSaved = (id: Photo["id"]) => saved.some(p => p.id == id);
 
   const handleFirstLoad = () => {
-    if (!photos.length && !!serverPhotos.length) setPhotos(serverPhotos);
-    if (!liked.length) getLikedData();
-    if (router.query.order_by && orderBy !== router.query.order_by)
+    if (!photos.length && !!serverPhotos.length) {
+      setPhotos(serverPhotos);
+    }
+    if (!liked.length) {
+      getLikedData();
+    }
+    if (!saved.length) {
+      getSavedData();
+    }
+    if (router.query.order_by && orderBy !== router.query.order_by) {
       setOrderBy(router.query.order_by as StoreState['orderBy']);
+    }
   };
 
   const handleFiltersChange = () => {
     getPhotos();
   };
 
-  const isFirstLoad = React.useRef(true);
-  React.useEffect(() => {
+  const isFirstLoad = useRef(true);
+  useEffect(() => {
     if (isFirstLoad.current) {
       isFirstLoad.current = false;
       handleFirstLoad();
@@ -129,24 +122,22 @@ export const getServerSideProps: GetServerSideProps<{
   order_by: string;
   search: string;
   color: string;
-}> = async ({ res, query, req }) => {
-  // res.setHeader(
-  //   'Cache-Control',
-  //   'public, s-maxage=19, stale-while-revalidate=59',
-  // );
-
-  console.log('server props');
-  
+}> = async ({ req, query }) => {
   const filters = {
-    order_by: query.order_by ? String(query.order_by) : 'latest',
-    search: query.search ? String(query.search) : '',
-    color: req.cookies.color ? String(req.cookies.color) : 'black_and_white',
+    order_by: `${query.order_by || 'latest'}`,
+    search: `${query.search || ''}`,
+    color: `${req.cookies.color || 'black_and_white'}`,
   };
   console.log({ filters });
   
-  const photosData = new PhotosHTTPData();
-  const rawData = await photosData.getPhotoList(filters);
-  const photos = photosData.createPhotoListAdapter(rawData);
-  return { props: { photos, ...filters } };
+  const photosList = await getPhotosListUtil(filters);
+  return {
+    props: {
+      title: "Quality work from expert photographers",
+      subtitle: "Find and save the best photographies, all in one place.",
+      photos: photosList,
+      ...filters
+    },
+  };
 };
  
