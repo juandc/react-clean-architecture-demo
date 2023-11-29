@@ -1,18 +1,25 @@
 import React from 'react';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import { Layout, MasonryList, PhotoCard, PhotoCardSkeleton } from '@/components';
-import { PhotoList } from '@/modules/photos/photos.types';
+import type { PhotoList } from '@/modules/photos/photos.types';
 import { PhotosHTTPData } from '@/modules/photos/photos.data';
 import { PhotoFilters, PhotoSearch } from '@/modules/photos/components';
 import { LikedLocalStorageData } from '@/modules/liked/liked.data';
+import { SavedLocalStorageData } from '@/modules/saved/saved.data';
+import type { StoreState } from '@/store/store.types';
 import { useStore } from '@/store/ContextStore';
+import { Layout, MasonryList, PhotoCard, PhotoCardSkeleton } from '@/components';
 import { useRouter } from '@/utils/useRouter';
-import { StoreState } from '@/store/store.types';
 
 export default function HomePage({
   photos: serverPhotos,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { photos, photosLoading, isLiked, color } = useHome(serverPhotos);
+  const {
+    photos,
+    photosLoading,
+    isLiked,
+    isSaved,
+    color,
+  } = useHome(serverPhotos);
 
   return (
     <Layout
@@ -31,6 +38,7 @@ export default function HomePage({
           <PhotoCard
             key={photo.id}
             isLiked={isLiked(photo.id)}
+            isSaved={isSaved(photo.id)}
             {...photo}
           />
         ))}
@@ -50,6 +58,8 @@ const useHome = (serverPhotos) => {
     setPhotos,
     liked,
     setLiked,
+    saved,
+    setSaved,
   } = useStore();
   const router = useRouter();
 
@@ -72,8 +82,17 @@ const useHome = (serverPhotos) => {
     const likedList = likedData.createLikedListAdapter(rawData);
     setLiked(likedList);
   };
+  
+  const getSavedData = async () => {
+    const savedData = new SavedLocalStorageData();
+    const rawData = await savedData.getSaved();
+    const savedList = savedData.createSavedListAdapter(rawData);
+    setSaved(savedList);
+  };
 
   const isLiked = (id) => liked.some(p => p.id == id);
+
+  const isSaved = (id) => saved.some(p => p.id == id);
 
   const handleFirstLoad = () => {
     if (!photos.length && !!serverPhotos.length) setPhotos(serverPhotos);
@@ -101,6 +120,7 @@ const useHome = (serverPhotos) => {
     photos,
     photosLoading,
     isLiked,
+    isSaved,
   };
 };
 

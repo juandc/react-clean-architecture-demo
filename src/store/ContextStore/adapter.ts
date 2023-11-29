@@ -33,6 +33,18 @@ export function useStore(): StoreAdapter {
   const removeLike = (payload) => {
     dispatch({ type: AppActionTypes.REMOVE_LIKE, payload });
   };
+
+  const setSaved = (payload) => {
+    dispatch({ type: AppActionTypes.SET_SAVED, payload });
+  };
+
+  const addSave = (payload) => {
+    dispatch({ type: AppActionTypes.ADD_SAVE, payload });
+  };
+
+  const removeSave = (payload) => {
+    dispatch({ type: AppActionTypes.REMOVE_SAVE, payload });
+  };
   
   return {
     color: state.color,
@@ -51,5 +63,8 @@ export function useStore(): StoreAdapter {
     setLiked,
     addLike,
     removeLike,
+    setSaved,
+    addSave,
+    removeSave,
   };
 }

@@ -9,6 +9,9 @@ export const enum AppActionTypes {
   SET_LIKED = 'SET_LIKED',
   ADD_LIKE = 'ADD_LIKE',
   REMOVE_LIKE = 'REMOVE_LIKE',
+  SET_SAVED = 'SET_SAVED',
+  ADD_SAVE = 'ADD_SAVE',
+  REMOVE_SAVE = 'REMOVE_SAVE',
 };
 
 type SetPhotosPayload = {
@@ -46,6 +49,21 @@ type RemoveLikePayload = {
   payload: Photo,
 };
 
+type SetSavedPayload = {
+  type: AppActionTypes.SET_SAVED,
+  payload: PhotoList,
+};
+
+type AddSavePayload = {
+  type: AppActionTypes.ADD_SAVE,
+  payload: Photo,
+};
+
+type RemoveSavePayload = {
+  type: AppActionTypes.REMOVE_SAVE,
+  payload: Photo,
+};
+
 export type AppAction = (
   SetPhotosPayload
   | SetOrderByPayload
@@ -54,6 +72,9 @@ export type AppAction = (
   | SetLikedPayload
   | AddLikePayload
   | RemoveLikePayload
+  | SetSavedPayload
+  | AddSavePayload
+  | RemoveSavePayload
 );
 
 export const appReducer = (state: StoreState, action: AppAction): StoreState => {
@@ -100,6 +121,25 @@ export const appReducer = (state: StoreState, action: AppAction): StoreState => 
       return {
         ...state,
         liked: state.liked.filter(x => x.id !== action.payload.id),
+      };
+    case AppActionTypes.SET_SAVED:
+      return {
+        ...state,
+        saved: [...action.payload],
+        savedLoading: false,
+      };
+    case AppActionTypes.ADD_SAVE:
+      return {
+        ...state,
+        saved: [
+          action.payload,
+          ...state.saved,
+        ],
+      };
+    case AppActionTypes.REMOVE_SAVE:
+      return {
+        ...state,
+        saved: state.saved.filter(x => x.id !== action.payload.id),
       };
     default:
       return state;

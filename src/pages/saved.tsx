@@ -1,33 +1,55 @@
+import React from 'react';
 import { GetServerSideProps } from 'next';
-import { Saved } from '@/modules/saved/saved.types'
-import { SavedHTTPData } from '@/modules/saved/saved.data';
-import { Layout, Link } from '@/components';
+import { SavedLocalStorageData } from '@/modules/saved/saved.data';
+import { useStore } from '@/store/ContextStore';
+import { Layout, MasonryList, PhotoCard, PhotoCardSkeleton } from '@/components';
 
-export default function SavedPage({ saved }) {
+export default function SavedPage() {
+  const { saved, savedLoading, color } = useSaved();
+  
   return (
     <Layout
       title="Saved photographies"
+      color={color}
     >
-      '{saved}'
+      <MasonryList
+        isLoading={savedLoading}
+        loadingSkeleton={PhotoCardSkeleton}
+      >
+        {saved.map(photo => (
+          <PhotoCard key={photo.id} {...photo} isSaved={true} />
+        ))}
+      </MasonryList>
     </Layout>
   );
-  
-  // return (
-  //   <>
-  //     <Link href="/liked">Liked</Link>
-  //     <h1>Home</h1>
-  //     <p>Lista de cosas (from redux, aunque no lo sepa)</p>
-  //     <p>Data: '{saved}'</p>
-  //   </>
-  // );
 }
 
-export const getServerSideProps: GetServerSideProps<{
-  saved: Saved;
-}> = async () => {
-  const savedData = new SavedHTTPData();
-  const rawData = await savedData.getSaved();
-  const saved = savedData.createSavedAdapter(rawData);
-  return { props: { saved } };
+function useSaved() {
+  const { saved, savedLoading, setSaved, color } = useStore();
+
+  const getSavedData = async () => {
+    const savedData = new SavedLocalStorageData();
+    const rawData = await savedData.getSaved();
+    const savedList = savedData.createSavedListAdapter(rawData);
+    setSaved(savedList);
+  };
+
+  React.useEffect(() => {
+    if (!saved.length) getSavedData();
+  }, []);
+  
+  return {
+    saved,
+    savedLoading,
+    color,
+  };
+}
+
+export const getServerSideProps: GetServerSideProps<{}> = async ({ req }) => {
+  const filters = {
+    color: req.cookies.color ? String(req.cookies.color) : 'black_and_white',
+  };
+
+  return { props: { ...filters } };
 };
  

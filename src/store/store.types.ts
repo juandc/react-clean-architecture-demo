@@ -20,6 +20,9 @@ export interface StoreDispatch {
   setLiked(newLiked: PhotoList): void;
   addLike(newLiked: Photo): void;
   removeLike(likedItem: Photo): void;
+  setSaved(newSaved: PhotoList): void;
+  addSave(newSaved: Photo): void;
+  removeSave(savedItem: Photo): void;
 }
 
 export type StoreAdapter = StoreState & StoreDispatch;

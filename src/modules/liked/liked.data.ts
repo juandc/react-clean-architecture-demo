@@ -1,4 +1,4 @@
-import { LikedData } from './liked.types';
+import type { LikedData } from './liked.types';
 
 export class LikedLocalStorageData implements LikedData {
   createLikedItemAdapter(rawData) {
