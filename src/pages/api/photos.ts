@@ -13,14 +13,15 @@ export default async function handler(req, res) {
     `color=${color || 'black_and_white'}; path=/; samesite=lax;`
   );
 
-  await new Promise(resolve => setTimeout(() => resolve(true), 1000));
-  if (order_by == 'relevant') res.status(200).json(exampleDataRelevant);
-  else res.status(200).json(exampleData);
-
-  // const api = new UnsplashAPI();
-  // const { data, status } = await api.getPhotos({ search, page, per_page, order_by, color });
-
-  // res.status(status).json(data.results);
+  if (process.env.FAKE_DATA.toLowerCase() === 'true') {
+    await new Promise(resolve => setTimeout(() => resolve(true), 1000));
+    if (order_by == 'relevant') res.status(200).json(exampleDataRelevant);
+    else res.status(200).json(exampleData);
+  } else {
+    const api = new UnsplashAPI();
+    const { data, status } = await api.getPhotos({ search, page, per_page, order_by, color });
+    res.status(status).json(data.results);
+  }
 }
 
 const exampleData = [
